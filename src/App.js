@@ -1,27 +1,58 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './style/App.css';
+import Counter from "./component/counter"
 
 class App extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            summary:0
+        }
+        this.children = [];
+    }
+    changeSummary=(num)=>{
+        this.setState(preState => {
+            return {summary:preState.summary+num}
+        });
+    }
+
+    generateCounters(){
+        let {size} = this.props;
+        let counters = [];
+        while(size > 0){
+            counters.push(
+                <Counter key={`counter-${size}`} summing={this.changeSummary} parent={this}/>
+            );
+            size--;
+        }
+        return counters;
+    }
+
+    bindChild=(component)=>{
+        //console.log(this);
+        this.children.push(component);
+    }
+
+    reset = () =>{
+        this.children.forEach(child => child.reset())
+        this.setState(preState => {
+            return {summary:0}
+        });
+    }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+            {this.generateCounters()}
+            <div className="summaryDiv">
+                <span>Summary : </span>
+                <span className="summaryResult">{this.state.summary}</span>
+                <input className="countBtn" type="button" value="Reset" onClick={this.reset}/>
+            </div>
         </header>
       </div>
-    );
+  );
   }
 }
 
