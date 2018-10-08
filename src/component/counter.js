@@ -31,9 +31,26 @@ export default class Counter extends React.Component {
         })
     }
 
+    edit=(event)=>{
+        event.target.setAttribute("contentEditable","true");
+        event.target.focus();
+    }
+
+    update=(event)=>{
+        if(event.key==="Enter"){
+            event.target.setAttribute("contentEditable","false");
+        }
+    }
+
+    confirm = (event) => {
+        event.target.setAttribute("contentEditable","false");
+    }
+
     render(){
+        console.log(this.props);
         return (
             <div>
+                <span className="itemTitle" onDoubleClick={this.edit} onKeyPress={this.update} onBlur={this.confirm}>{this.props.name}</span>
                 <input className="countBtn" type="button" value="+" onClick={this.add}/>
                 <input className="countBtn" type="button" value="-" onClick={this.drop}/>
                 <span className="eachCount">{this.state.count}</span>

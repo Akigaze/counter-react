@@ -21,7 +21,7 @@ class App extends Component {
         let counters = [];
         while(size > 0){
             counters.push(
-                <Counter key={`counter-${size}`} summing={this.changeSummary} parent={this}/>
+                <Counter key={`counter-${size}`} name={`Counter ${this.props.size-size+1}`} summing={this.changeSummary} parent={this}/>
             );
             size--;
         }
